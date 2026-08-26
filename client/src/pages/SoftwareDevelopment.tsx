@@ -4,8 +4,13 @@ import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { iconColorBySlug } from "@/lib/serviceIcons";
 
 const pillarIcons = [Code2, Cpu, Smartphone];
+const heroIconColor = iconColorBySlug["software-development"];
+
+/* Boje ikonica variraju kroz brend paletu (royal/narandžasta/zelena), isto kao na početnoj. */
+const accents = ["#1735e0", "#f5820a", "#2ee6d6"];
 
 const portfolioImages = [
   { src: "/images/work/lemit.jpg", url: "https://www.lemit.rs" },
@@ -56,7 +61,7 @@ export default function SoftwareDevelopment() {
           {/* Hero */}
           <div className="flex items-center gap-4 mb-12">
             <div className="flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-brand/20 to-royal/10 border border-white shadow-sm shrink-0">
-              <Smartphone className="text-royal w-7 h-7" />
+              <Smartphone className="w-7 h-7" style={{ color: heroIconColor }} />
             </div>
             <h1 className="text-3xl lg:text-[38px] font-extrabold leading-tight text-navy tracking-tight whitespace-nowrap">
               {p.label}
@@ -68,10 +73,14 @@ export default function SoftwareDevelopment() {
           <div className="mt-14 grid md:grid-cols-3 gap-6">
             {p.pillars.map((pillar, i) => {
               const Icon = pillarIcons[i];
+              const accent = accents[i % accents.length];
               return (
-                <div key={pillar.title} className="rounded-3xl p-7 border border-border/60 bg-cloud flex flex-col">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-brand/20 to-royal/10 border border-white shadow-sm mb-5">
-                    <Icon className="text-royal w-6 h-6" />
+                <div
+                  key={pillar.title}
+                  className="group rounded-3xl p-7 border border-border/60 bg-white shadow-lg shadow-navy/8 hover:shadow-xl hover:shadow-navy/10 hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                >
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white border border-border/60 shadow-sm mb-5 group-hover:border-royal/30 transition-colors">
+                    <Icon className="w-6 h-6" style={{ color: accent }} />
                   </div>
                   <h3 className="text-lg font-extrabold text-navy mb-2">{pillar.title}</h3>
                   <p className="text-sm text-navy/70 leading-relaxed flex-1">{pillar.description}</p>
@@ -95,8 +104,10 @@ export default function SoftwareDevelopment() {
               {p.pricing.packages.map((pkg, i) => (
                 <div
                   key={pkg.name}
-                  className={`relative rounded-3xl p-6 flex flex-col ${
-                    i === 2 ? "border-2 shadow-lg" : "border border-border/60 bg-white"
+                  className={`group relative rounded-3xl p-6 flex flex-col transition-all duration-300 ${
+                    i === 2
+                      ? "border-2 shadow-lg"
+                      : "border border-border/60 bg-white shadow-lg shadow-navy/8 hover:shadow-xl hover:shadow-navy/10 hover:-translate-y-1"
                   }`}
                   style={
                     i === 2
@@ -146,14 +157,14 @@ export default function SoftwareDevelopment() {
           {/* Portfolio */}
           <div className="mt-16 pt-10 border-t border-border/60">
             <h2 className="text-xl font-extrabold text-navy mb-6">{p.portfolioTitle}</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="flex flex-wrap gap-4">
               {portfolioImages.map((item) => (
                 <a
                   key={item.src}
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-2xl overflow-hidden border border-border/60 aspect-[4/3]"
+                  className="group rounded-2xl overflow-hidden border border-border/60 aspect-[4/3] w-[calc(50%-0.5rem)] sm:w-[200px]"
                 >
                   <img
                     src={item.src}

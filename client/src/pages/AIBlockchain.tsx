@@ -3,7 +3,6 @@ import {
   ArrowLeft,
   ArrowRight,
   Check,
-  Sparkles,
   ShieldCheck,
   Network,
   GraduationCap,
@@ -18,9 +17,17 @@ import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { iconBySlug, iconColorBySlug } from "@/lib/serviceIcons";
+
+const HeroIcon = iconBySlug["ai-blockchain"];
+const heroIconColor = iconColorBySlug["ai-blockchain"];
 
 const experienceIcons = [ShieldCheck, Network, GraduationCap, Building2, Coins];
 const aiIcons = [Brain, Bot, Wifi, CloudCog];
+
+/* Ikonice u karticama variraju kroz brend boje (royal/narandžasta/zelena), isto kao na
+   početnoj strani, umesto da sve budu jednobojne — daje karticama više vizuelnog života. */
+const cardIconColors = ["#1735e0", "#f5820a", "#2ee6d6"];
 
 const portfolioImages = [{ src: "/images/work/intersect.jpg", url: "https://intersectmbo.org/" }];
 
@@ -60,7 +67,7 @@ export default function AIBlockchain() {
           {/* Hero */}
           <div className="flex items-center gap-4 mb-12">
             <div className="flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-brand/20 to-royal/10 border border-white shadow-sm shrink-0">
-              <Sparkles className="text-royal w-7 h-7" />
+              <HeroIcon className="w-7 h-7" style={{ color: heroIconColor }} />
             </div>
             <h1 className="text-3xl lg:text-[38px] font-extrabold leading-tight text-navy tracking-tight">
               {p.label}
@@ -75,9 +82,14 @@ export default function AIBlockchain() {
               {p.experienceCards.map((card, i) => {
                 const Icon = experienceIcons[i];
                 return (
-                  <div key={card.title} className="rounded-2xl p-6 border border-border/60 bg-cloud flex flex-col">
-                    <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-brand/20 to-royal/10 border border-white shadow-sm mb-4">
-                      <Icon className="text-royal w-5 h-5" />
+                  <div
+                    key={card.title}
+                    className="group rounded-2xl p-6 border border-border/60 bg-white shadow-lg shadow-navy/8 hover:shadow-xl hover:shadow-navy/10 hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                  >
+                    <div
+                      className="flex items-center justify-center w-11 h-11 rounded-xl bg-white border border-border/60 shadow-sm mb-4 group-hover:border-royal/30 transition-colors"
+                    >
+                      <Icon className="w-5 h-5" style={{ color: cardIconColors[i % cardIconColors.length] }} />
                     </div>
                     <h3 className="text-base font-extrabold text-navy mb-1.5">{card.title}</h3>
                     <p className="text-sm text-navy/70 leading-relaxed flex-1">{card.description}</p>
@@ -95,9 +107,14 @@ export default function AIBlockchain() {
               {p.aiCards.map((card, i) => {
                 const Icon = aiIcons[i];
                 return (
-                  <div key={card.title} className="rounded-2xl p-6 border border-border/60 bg-cloud flex flex-col">
-                    <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-brand/20 to-royal/10 border border-white shadow-sm mb-4">
-                      <Icon className="text-royal w-5 h-5" />
+                  <div
+                    key={card.title}
+                    className="group rounded-2xl p-6 border border-border/60 bg-white shadow-lg shadow-navy/8 hover:shadow-xl hover:shadow-navy/10 hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                  >
+                    <div
+                      className="flex items-center justify-center w-11 h-11 rounded-xl bg-white border border-border/60 shadow-sm mb-4 group-hover:border-royal/30 transition-colors"
+                    >
+                      <Icon className="w-5 h-5" style={{ color: cardIconColors[i % cardIconColors.length] }} />
                     </div>
                     <h3 className="text-base font-extrabold text-navy mb-1.5">{card.title}</h3>
                     <p className="text-sm text-navy/70 leading-relaxed flex-1">{card.description}</p>
@@ -131,14 +148,14 @@ export default function AIBlockchain() {
           {/* Portfolio */}
           <div className="mt-16 pt-10 border-t border-border/60">
             <h2 className="text-xl font-extrabold text-navy mb-6">{p.portfolioTitle}</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="flex flex-wrap gap-4">
               {portfolioImages.map((item) => (
                 <a
                   key={item.src}
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-2xl overflow-hidden border border-border/60 aspect-[4/3]"
+                  className="group rounded-2xl overflow-hidden border border-border/60 aspect-[4/3] w-[calc(50%-0.5rem)] sm:w-[200px]"
                 >
                   <img
                     src={item.src}

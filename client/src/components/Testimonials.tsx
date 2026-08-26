@@ -2,10 +2,12 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Quote } from "lucide-react";
 
+/* Pune (neprozirne) pozadine umesto providnih — iste nijanse kao ranije (tint boje preko bele
+   podloge), ali neprozirne da pozadinske IT linije ne prosijavaju kroz tekst, pogotovo na hoveru. */
 const cardStyles = [
-  "bg-cyan-brand/10 border-cyan-brand/25",
-  "bg-royal/8 border-royal/20",
-  "bg-navy/5 border-navy/15",
+  { bg: "#eafdfb", border: "border-cyan-brand/25" },
+  { bg: "#ecf0fd", border: "border-royal/20" },
+  { bg: "#f3f4f7", border: "border-navy/15" },
 ];
 
 const avatarStyles = ["bg-cyan-brand text-navy", "bg-royal text-white", "bg-navy text-white"];
@@ -37,7 +39,8 @@ export default function Testimonials() {
             {t.testimonials.items.map((item, i) => (
               <div
                 key={item.name}
-                className={`rounded-2xl border shadow-lg shadow-navy/8 p-7 flex flex-col ${cardStyles[i % cardStyles.length]}`}
+                className={`rounded-2xl border shadow-lg shadow-navy/8 p-7 flex flex-col ${cardStyles[i % cardStyles.length].border}`}
+                style={{ backgroundColor: cardStyles[i % cardStyles.length].bg }}
               >
                 <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/70 mb-5">
                   <Quote className="w-5 h-5 text-royal" />

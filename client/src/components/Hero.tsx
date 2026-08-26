@@ -1,9 +1,32 @@
-/* We Deliver IT — Hero: naslov levo, veliki origami avion desno */
+/* We Deliver IT — Hero: naslov levo, mreža povezanih čvorova desno */
 import { ArrowRight, Play } from "lucide-react";
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const HERO_PLANE = "/images/plane-hires.png";
+/* Čvorovi mreže: pozicija, poluprečnik i boja (royal/cyan/narandžasta — brend paleta). */
+const NET_NODES = [
+  { id: "n1", cx: 250, cy: 130, r: 40, color: "#1735e0", delay: "0s" },
+  { id: "n2", cx: 110, cy: 190, r: 22, color: "#2ee6d6", delay: "0.4s" },
+  { id: "n3", cx: 390, cy: 170, r: 26, color: "#f5820a", delay: "0.8s" },
+  { id: "n4", cx: 90, cy: 330, r: 16, color: "#2ee6d6", delay: "1.2s" },
+  { id: "n5", cx: 300, cy: 310, r: 30, color: "#1735e0", delay: "0.2s" },
+  { id: "n6", cx: 420, cy: 300, r: 14, color: "#2ee6d6", delay: "1.6s" },
+  { id: "n7", cx: 200, cy: 400, r: 18, color: "#f5820a", delay: "0.6s" },
+  { id: "n8", cx: 350, cy: 410, r: 16, color: "#1735e0", delay: "1s" },
+] as const;
+
+/* Linije koje povezuju čvorove — svaka nasleđuje boju svog izvornog čvora. */
+const NET_EDGES: [string, string][] = [
+  ["n1", "n2"],
+  ["n1", "n3"],
+  ["n1", "n5"],
+  ["n2", "n4"],
+  ["n5", "n3"],
+  ["n5", "n6"],
+  ["n5", "n7"],
+  ["n7", "n8"],
+  ["n3", "n6"],
+];
 
 export default function Hero() {
   const { t } = useLanguage();
@@ -84,18 +107,43 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right: airplane */}
+        {/* Right: network graph */}
         <div className="relative flex justify-center lg:justify-start">
-          <div className="relative w-full max-w-[520px]">
-            <div className="absolute -inset-16 bg-gradient-to-br from-cyan-brand/20 via-royal/10 to-transparent blur-[80px] rounded-full" />
-            <div className="absolute top-1/4 -left-8 w-4/5 h-4/5 bg-gradient-to-tr from-royal/15 via-cyan-brand/8 to-transparent blur-[60px] rounded-full" />
-            <div className="absolute -bottom-10 right-0 w-2/3 h-2/3 bg-cyan-brand/12 blur-[70px] rounded-full" />
-            <img
-              src={HERO_PLANE}
-              alt="Origami paper plane"
-              className="relative w-full h-auto animate-[float_6s_ease-in-out_infinite]"
-              style={{ filter: "drop-shadow(0 0 24px rgba(15,23,42,0.18))" }}
-            />
+          <div className="relative w-full max-w-[520px] aspect-square">
+            <svg viewBox="0 0 500 500" className="relative w-full h-full">
+              {/* Linije — prate "tok" animacijom isprekidane linije */}
+              <g fill="none" strokeLinecap="round">
+                {NET_EDGES.map(([fromId, toId], i) => {
+                  const from = NET_NODES.find((n) => n.id === fromId)!;
+                  const to = NET_NODES.find((n) => n.id === toId)!;
+                  return (
+                    <line
+                      key={i}
+                      x1={from.cx}
+                      y1={from.cy}
+                      x2={to.cx}
+                      y2={to.cy}
+                      stroke={from.color}
+                      strokeOpacity={0.35}
+                      strokeWidth={2}
+                      strokeDasharray="6 10"
+                      className="net-edge"
+                      style={{ animationDelay: `${i * 0.3}s` }}
+                    />
+                  );
+                })}
+              </g>
+
+              {/* Čvorovi — meki sjaj iza + puni krug, svaki lagano pulsira */}
+              <g>
+                {NET_NODES.map((n) => (
+                  <g key={n.id} className="net-node" style={{ animationDelay: n.delay }}>
+                    <circle cx={n.cx} cy={n.cy} r={n.r * 1.6} fill={n.color} opacity={0.15} style={{ filter: "blur(6px)" }} />
+                    <circle cx={n.cx} cy={n.cy} r={n.r} fill={n.color} />
+                  </g>
+                ))}
+              </g>
+            </svg>
           </div>
         </div>
       </div>
@@ -105,8 +153,30 @@ export default function Hero() {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-14px); }
         }
+        .hero-float {
+          animation: float 6s ease-in-out infinite;
+        }
+
+        /* Čvorovi lagano pulsiraju oko sopstvenog centra (fill-box da se ne skaliraju
+           od (0,0) ugla celog SVG-a), a linije "teku" isprekidanom animacijom. */
+        @keyframes netPulse {
+          0%, 100% { opacity: 0.85; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.12); }
+        }
+        .net-node {
+          transform-box: fill-box;
+          transform-origin: center;
+          animation: netPulse 3.2s ease-in-out infinite;
+        }
+        @keyframes netFlow {
+          to { stroke-dashoffset: -160; }
+        }
+        .net-edge {
+          animation: netFlow 3.5s linear infinite;
+        }
+
         @media (prefers-reduced-motion: reduce) {
-          img[alt="Origami paper plane"] { animation: none !important; }
+          .hero-float, .net-node, .net-edge { animation: none !important; }
         }
       `}</style>
     </section>

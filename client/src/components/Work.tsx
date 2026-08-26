@@ -1,26 +1,10 @@
-/* We Deliver IT — Our work: 3 tamne case study kartice */
+/* We Deliver IT — Our work: tamne case study kartice u karuselu */
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { useEffect, useRef, useState } from "react";
-
-const caseImages = [
- 
-  "/images/work/upstrivesystem.jpg",
-  "/images/work/intersect.jpg",
-   "/images/work/lemit.jpg",
-  "/images/work/mindmotions.jpg",
-  
-  "/images/work/eman.jpg",
-  "/images/work/caffe-confetti.jpg",
-  "/images/work/synergy.jpg",
-  "/images/work/gorsen.jpg",
-  "/images/work/xenonas.jpg",
-  "/images/work/ograde-vestacka-trava.jpg",
-  "/images/work/itema.jpg",
-  "/images/work/limen.jpg",
-];
+import CaseImage from "@/components/CaseImage";
 
 export default function Work() {
   const { t, lang } = useLanguage();
@@ -119,14 +103,17 @@ export default function Work() {
                   style={{ backgroundColor: "#0a1233" }}
                 >
                   <div className="overflow-hidden">
-                    <img
-                      src={caseImages[i]}
+                    <CaseImage
+                      index={i}
                       alt={c.title}
                       className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                   <div className="p-6 flex flex-col flex-1">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-cyan-brand mb-3" style={{ color: "#2ee6d6" }}>
+                    <p
+                      className="text-[10px] font-bold uppercase tracking-[0.15em] mb-3"
+                      style={{ color: "#2ee6d6" }}
+                    >
                       {c.category}
                     </p>
                     <h3 className="text-lg font-extrabold text-white leading-snug mb-3">

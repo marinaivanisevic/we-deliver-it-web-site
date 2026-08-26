@@ -23,20 +23,25 @@ export default function TrustedBy() {
     <section className="py-8">
       <div className="container">
         <div className="relative py-2 overflow-hidden">
-          <p className="relative text-[10px] font-bold uppercase tracking-[0.15em] text-navy/50 px-6 lg:px-8 mb-4">
+          <p className="relative text-[10px] font-bold uppercase tracking-[0.15em] text-royal px-6 lg:px-8 mb-4">
             {t.trusted.label}
           </p>
           <div className="relative overflow-hidden">
-            <div className="flex w-max gap-4 pl-6 lg:pl-8 animate-[marquee_40s_linear_infinite] hover:[animation-play-state:paused]">
+            <div className="marquee-track flex w-max gap-4 pl-6 lg:pl-8 animate-[marquee_40s_linear_infinite] hover:[animation-play-state:paused]">
               {[...partners, ...partners].map((p, i) => (
                 <a
                   key={`${p.name}-${i}`}
                   href={p.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center shrink-0 w-40 h-20 rounded-xl bg-white border border-border/60 px-5 grayscale-0 opacity-100 hover:grayscale hover:opacity-70 transition-all"
+                  className="flex items-center justify-center shrink-0 w-40 h-20 rounded-xl bg-white border border-border/60 px-5 opacity-100 hover:shadow-md hover:border-royal/30 transition-all"
                 >
-                  <img src={p.logo} alt={p.name} className="max-w-full max-h-10 object-contain" />
+                  <img
+                    src={p.logo}
+                    alt={p.name}
+                    loading="lazy"
+                    className="max-w-full max-h-10 object-contain"
+                  />
                 </a>
               ))}
             </div>
@@ -52,7 +57,7 @@ export default function TrustedBy() {
           to { transform: translateX(-50%); }
         }
         @media (prefers-reduced-motion: reduce) {
-          section .animate-\\[marquee_40s_linear_infinite\\] { animation: none !important; }
+          .marquee-track { animation: none !important; }
         }
       `}</style>
     </section>

@@ -3,21 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-
-const caseImages = [
-  "/images/work/upstrivesystem.jpg",
-  "/images/work/intersect.jpg",
-  "/images/work/lemit.jpg",
-  "/images/work/mindmotions.jpg",
-  "/images/work/eman.jpg",
-  "/images/work/caffe-confetti.jpg",
-  "/images/work/synergy.jpg",
-  "/images/work/gorsen.jpg",
-  "/images/work/xenonas.jpg",
-  "/images/work/ograde-vestacka-trava.jpg",
-  "/images/work/itema.jpg",
-  "/images/work/limen.jpg",
-];
+import CaseImage from "@/components/CaseImage";
 
 export default function Projects() {
   const { t } = useLanguage();
@@ -65,8 +51,8 @@ export default function Projects() {
                 style={{ backgroundColor: "#0a1233" }}
               >
                 <div className="overflow-hidden">
-                  <img
-                    src={caseImages[i]}
+                  <CaseImage
+                    index={i}
                     alt={c.title}
                     className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-500"
                   />

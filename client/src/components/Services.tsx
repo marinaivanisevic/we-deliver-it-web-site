@@ -1,9 +1,8 @@
-/* We Deliver IT — What we do: grid 3x2 kartica usluga */
+/* We Deliver IT — What we do: grid kartica usluga */
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Code2, Smartphone, Cloud, Cpu, PenTool, ShieldCheck, ArrowRight } from "lucide-react";
-
-const icons = [Code2, Smartphone, Cloud, Cpu, PenTool, ShieldCheck];
+import { ArrowRight } from "lucide-react";
+import { iconBySlug, iconColorBySlug } from "@/lib/serviceIcons";
 
 export default function Services() {
   const { t } = useLanguage();
@@ -18,23 +17,24 @@ export default function Services() {
               {t.whatWeDo.title}
             </h2>
           </div>
-          <p className="text-sm lg:text-base text-muted-foreground max-w-sm lg:justify-self-end leading-relaxed">
+          <p className="text-base lg:text-lg font-semibold text-navy max-w-sm lg:justify-self-end leading-relaxed">
             {t.whatWeDo.description}
           </p>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {t.whatWeDo.services.map((service, i) => {
-            const Icon = icons[i];
+          {t.whatWeDo.services.map((service) => {
+            const Icon = iconBySlug[service.slug] ?? iconBySlug["it-consulting"];
+            const iconColor = iconColorBySlug[service.slug] ?? "#1735e0";
             return (
               <Link
-                key={service.title}
+                key={service.slug}
                 href={`/services/${service.slug}`}
                 className="group bg-cloud rounded-2xl border border-border/60 shadow-lg shadow-navy/8 p-7 hover:shadow-xl hover:shadow-navy/10 hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="flex items-center gap-3 mb-3">
                   <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white border border-border/60 shrink-0 group-hover:border-royal/30 transition-colors">
-                    <Icon className="text-royal w-[26px] h-[26px]" />
+                    <Icon className="w-[26px] h-[26px]" style={{ color: iconColor }} />
                   </div>
                   <h3 className="text-xl font-extrabold text-navy leading-snug">
                     {service.title}
