@@ -46,7 +46,9 @@ export default function Technologies() {
             {t.tech.label}
           </p>
           <div className="relative overflow-hidden">
-            <div className="flex w-max gap-3 pl-6 lg:pl-8 animate-[marquee_45s_linear_infinite] hover:[animation-play-state:paused]">
+            {/* marquee-track: obična klasa, da reduced-motion pravilo lako cilja traku
+                bez obzira na trajanje animacije */}
+            <div className="marquee-track flex w-max gap-3 pl-6 lg:pl-8 animate-[marquee_45s_linear_infinite] hover:[animation-play-state:paused]">
               {[...techs, ...techs].map((tech, i) => (
                 <div
                   key={`${tech.name}-${i}`}
@@ -70,7 +72,7 @@ export default function Technologies() {
           to { transform: translateX(-50%); }
         }
         @media (prefers-reduced-motion: reduce) {
-          section .animate-\\[marquee_28s_linear_infinite\\] { animation: none !important; }
+          .marquee-track { animation: none !important; }
         }
       `}</style>
     </section>

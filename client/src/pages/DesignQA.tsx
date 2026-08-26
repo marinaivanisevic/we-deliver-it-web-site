@@ -3,7 +3,6 @@ import {
   ArrowLeft,
   ArrowRight,
   Check,
-  Palette,
   Search,
   LayoutGrid,
   Paintbrush,
@@ -17,9 +16,17 @@ import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { iconBySlug, iconColorBySlug } from "@/lib/serviceIcons";
+
+const HeroIcon = iconBySlug["design-qa"];
+const heroIconColor = iconColorBySlug["design-qa"];
 
 const designIcons = [Search, LayoutGrid, Paintbrush, MousePointerClick];
 const qaIcons = [TestTube, Bug, Gauge, ShieldCheck];
+
+/* Boje ikonica variraju kroz brend paletu (royal/narandžasta/zelena), isto kao na početnoj. */
+const designAccents = ["#2ee6d6", "#1735e0", "#f5820a"];
+const qaAccents = ["#f5820a", "#2ee6d6", "#1735e0"];
 
 const portfolioImages = [
   { src: "/images/work/caffe-confetti.jpg", url: "https://cafeconfettidubai.com/" },
@@ -63,7 +70,7 @@ export default function DesignQA() {
           {/* Hero */}
           <div className="flex items-center gap-4 mb-12">
             <div className="flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-brand/20 to-royal/10 border border-white shadow-sm shrink-0">
-              <Palette className="text-royal w-7 h-7" />
+              <HeroIcon className="w-7 h-7" style={{ color: heroIconColor }} />
             </div>
             <h1 className="text-3xl lg:text-[38px] font-extrabold leading-tight text-navy tracking-tight">
               {p.label}
@@ -71,17 +78,53 @@ export default function DesignQA() {
           </div>
           <p className="text-base lg:text-lg text-navy/80 leading-relaxed">{p.intro}</p>
 
-          {/* Design section */}
+          {/* Design section — "bento" raspored: istaknuta kartica na vrhu + 3 kartice ispod */}
           <div className="mt-14">
             <h2 className="text-xl font-extrabold text-navy mb-2">{p.designTitle}</h2>
             <p className="text-sm text-muted-foreground max-w-2xl mb-6">{p.designSubtitle}</p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {p.designCards.map((card, i) => {
-                const Icon = designIcons[i];
+
+            {p.designCards[0] && (
+              <div className="relative overflow-hidden rounded-3xl p-8 lg:p-10 mb-5" style={{ backgroundColor: "#0e1e56" }}>
+                <div
+                  className="absolute -top-16 -right-16 w-64 h-64 rounded-full blur-[70px] pointer-events-none"
+                  style={{ background: "radial-gradient(circle, rgba(46,230,214,0.35) 0%, transparent 70%)" }}
+                />
+                <div
+                  className="absolute -bottom-20 left-1/3 w-56 h-56 rounded-full blur-[70px] pointer-events-none"
+                  style={{ background: "radial-gradient(circle, rgba(23,53,224,0.35) 0%, transparent 70%)" }}
+                />
+                <span
+                  className="absolute -bottom-6 right-6 text-[120px] font-extrabold leading-none text-white/[0.06] select-none pointer-events-none"
+                  aria-hidden
+                >
+                  01
+                </span>
+                <div className="relative flex flex-col sm:flex-row sm:items-center gap-6">
+                  <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 border border-white/20 shrink-0">
+                    {(() => {
+                      const Icon = designIcons[0];
+                      return <Icon className="w-8 h-8" style={{ color: designAccents[0] }} />;
+                    })()}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-extrabold text-white mb-2">{p.designCards[0].title}</h3>
+                    <p className="text-white/70 leading-relaxed max-w-xl">{p.designCards[0].description}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {p.designCards.slice(1).map((card, i) => {
+                const Icon = designIcons[i + 1];
+                const accent = designAccents[(i + 1) % designAccents.length];
                 return (
-                  <div key={card.title} className="rounded-2xl p-6 border border-border/60 bg-cloud flex flex-col">
-                    <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-brand/20 to-royal/10 border border-white shadow-sm mb-4">
-                      <Icon className="text-royal w-5 h-5" />
+                  <div
+                    key={card.title}
+                    className="group rounded-2xl p-6 border border-border/60 bg-white shadow-lg shadow-navy/8 hover:shadow-xl hover:shadow-navy/10 hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                  >
+                    <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-white border border-border/60 shadow-sm mb-4 group-hover:border-royal/30 transition-colors">
+                      <Icon className="w-5 h-5" style={{ color: accent }} />
                     </div>
                     <h3 className="text-base font-extrabold text-navy mb-1.5">{card.title}</h3>
                     <p className="text-sm text-navy/70 leading-relaxed flex-1">{card.description}</p>
@@ -91,17 +134,53 @@ export default function DesignQA() {
             </div>
           </div>
 
-          {/* QA section */}
+          {/* QA section — isti "bento" jezik, samo obrnut redosled akcentnih boja */}
           <div className="mt-16 pt-10 border-t border-border/60">
             <h2 className="text-xl font-extrabold text-navy mb-2">{p.qaTitle}</h2>
             <p className="text-sm text-muted-foreground max-w-2xl mb-6">{p.qaSubtitle}</p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {p.qaCards.map((card, i) => {
-                const Icon = qaIcons[i];
+
+            {p.qaCards[0] && (
+              <div className="relative overflow-hidden rounded-3xl p-8 lg:p-10 mb-5" style={{ backgroundColor: "#0e1e56" }}>
+                <div
+                  className="absolute -top-16 -left-16 w-64 h-64 rounded-full blur-[70px] pointer-events-none"
+                  style={{ background: "radial-gradient(circle, rgba(245,130,10,0.30) 0%, transparent 70%)" }}
+                />
+                <div
+                  className="absolute -bottom-20 right-1/3 w-56 h-56 rounded-full blur-[70px] pointer-events-none"
+                  style={{ background: "radial-gradient(circle, rgba(46,230,214,0.30) 0%, transparent 70%)" }}
+                />
+                <span
+                  className="absolute -bottom-6 right-6 text-[120px] font-extrabold leading-none text-white/[0.06] select-none pointer-events-none"
+                  aria-hidden
+                >
+                  02
+                </span>
+                <div className="relative flex flex-col sm:flex-row sm:items-center gap-6">
+                  <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 border border-white/20 shrink-0">
+                    {(() => {
+                      const Icon = qaIcons[0];
+                      return <Icon className="w-8 h-8" style={{ color: qaAccents[0] }} />;
+                    })()}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-extrabold text-white mb-2">{p.qaCards[0].title}</h3>
+                    <p className="text-white/70 leading-relaxed max-w-xl">{p.qaCards[0].description}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {p.qaCards.slice(1).map((card, i) => {
+                const Icon = qaIcons[i + 1];
+                const accent = qaAccents[(i + 1) % qaAccents.length];
                 return (
-                  <div key={card.title} className="rounded-2xl p-6 border border-border/60 bg-cloud flex flex-col">
-                    <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-brand/20 to-royal/10 border border-white shadow-sm mb-4">
-                      <Icon className="text-royal w-5 h-5" />
+                  <div
+                    key={card.title}
+                    className="group rounded-2xl p-6 border border-border/60 bg-white shadow-lg shadow-navy/8 hover:shadow-xl hover:shadow-navy/10 hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                  >
+                    <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-white border border-border/60 shadow-sm mb-4 group-hover:border-royal/30 transition-colors">
+                      <Icon className="w-5 h-5" style={{ color: accent }} />
                     </div>
                     <h3 className="text-base font-extrabold text-navy mb-1.5">{card.title}</h3>
                     <p className="text-sm text-navy/70 leading-relaxed flex-1">{card.description}</p>
@@ -135,14 +214,14 @@ export default function DesignQA() {
           {/* Portfolio */}
           <div className="mt-16 pt-10 border-t border-border/60">
             <h2 className="text-xl font-extrabold text-navy mb-6">{p.portfolioTitle}</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="flex flex-wrap gap-4">
               {portfolioImages.map((item) => (
                 <a
                   key={item.src}
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-2xl overflow-hidden border border-border/60 aspect-[4/3]"
+                  className="group rounded-2xl overflow-hidden border border-border/60 aspect-[4/3] w-[calc(50%-0.5rem)] sm:w-[200px]"
                 >
                   <img
                     src={item.src}
