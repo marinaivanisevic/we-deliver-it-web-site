@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 115 90" fill="none">
+  <!-- We Deliver IT — origami avion (tacno preslikane konture originala) -->
+  <!-- Tirkizno krilo (levo) -->
+  <polygon points="106,6 5,23 42,43 41,32" fill="#05C1C1" stroke="#05C1C1" stroke-width="0.6" stroke-linejoin="round"/>
+  <!-- Tamno plavi rep (dole) -->
+  <polygon points="107,7 58,53 44,45 55,85" fill="#052F7A" stroke="#052F7A" stroke-width="0.6" stroke-linejoin="round"/>
+  <!-- Kraljevsko plavo telo (sredina, napred) -->
+  <polygon points="108,6 40.5,32.5 42.5,44.5 58.5,52.5" fill="#0019FF" stroke="#0019FF" stroke-width="0.6" stroke-linejoin="round"/>
+</svg>
